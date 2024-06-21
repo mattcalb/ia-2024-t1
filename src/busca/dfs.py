@@ -1,6 +1,6 @@
 """Implementação da busca em profundidade."""
 
-def dfs (graph, start: int, goal: int):
+def dfs (graph, start, goal):
     if (start in graph and goal in graph):
         anterior = start
         nodesAnalized = 0
