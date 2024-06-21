@@ -1,14 +1,10 @@
-"""Implementação da busca em profundidade."""
-
 from collections import deque
 
 def bfs(graph, start, goal):
-    """Busca um caminho entre start e goal usando busca em largura."""
 
     if start not in graph or goal not in graph:
         raise Exception('Vértice não encontrado no grafo')
     
-    # Inicialização das variáveis
     queue = deque([start])
     visited = {start: True}
     predecessor = {start: None}
@@ -28,7 +24,6 @@ def bfs(graph, start, goal):
             path.reverse()
             return (nodesAnalized, total_cost, path)
 
-        # Verificar todos os vizinhos do nó atual
         for neighbor in graph[current_node][1:]:
             neighbor_node, neighbor_cost = list(neighbor.items())[0]
             if neighbor_node not in visited:
