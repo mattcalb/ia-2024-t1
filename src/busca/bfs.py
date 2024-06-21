@@ -1,37 +1,38 @@
 """Implementação da busca em profundidade."""
 
-from queue import deque as Queue
+from collections import deque
 
-def bfs(graph, start, goal): #-> (int, float, [int]):
+def bfs(graph, start, goal):
     """Busca um caminho entre start e goal usando busca em largura."""
-        
-    if(start in graph and goal in graph):
-        anterior = start
-        nodesAnalized = 0
-        cost = 0
-        path = []
-        visited = {}
-        q = Queue()
-        q.appendleft(start)
-        while (len(q) > 0):
-            v = q.pop()
-            visited[v] = False
-            if(goal == v):
-                path.append(v)
-                for i in graph[anterior][1:]:
-                    if v == list(i.keys())[0]:
-                        cost = cost + i.get(v)
-                return (nodesAnalized, cost, path)
-            if visited[v] == False:
-                nodesAnalized = nodesAnalized + 1
-                path.append(v)
-                for i in graph[anterior][1:]:
-                    if v == list(i.keys())[0]:
-                        cost = cost + i.get(v)
-                anterior = v
-                visited[v] = True
-                for u in graph[v][1:]:
-                    q.appendleft(list(u.keys())[0])
 
-    else:
-        raise Exception('Vértice não existente no grafo')
+    if start not in graph or goal not in graph:
+        raise Exception('Vértice não encontrado no grafo')
+    
+    # Inicialização das variáveis
+    queue = deque([start])
+    visited = {start: True}
+    predecessor = {start: None}
+    costs = {start: 0}
+    nodesAnalized = 0
+    path = []
+
+    while queue:
+        current_node = queue.popleft()
+        nodesAnalized = nodesAnalized + 1
+
+        if current_node == goal:
+            total_cost = costs[current_node]
+            while current_node is not None:
+                path.append(current_node)
+                current_node = predecessor[current_node]
+            path.reverse()
+            return (nodesAnalized, total_cost, path)
+
+        # Verificar todos os vizinhos do nó atual
+        for neighbor in graph[current_node][1:]:
+            neighbor_node, neighbor_cost = list(neighbor.items())[0]
+            if neighbor_node not in visited:
+                visited[neighbor_node] = True
+                predecessor[neighbor_node] = current_node
+                costs[neighbor_node] = costs[current_node] + neighbor_cost
+                queue.append(neighbor_node)
