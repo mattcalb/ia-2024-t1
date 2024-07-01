@@ -1,33 +1,36 @@
-from collections import deque
+from queue import deque as Queue
 
 def bfs(graph, start, goal):
-
     if start not in graph or goal not in graph:
         raise Exception('Vértice não encontrado no grafo')
-    
-    queue = deque([start])
-    visited = {start: True}
-    predecessor = {start: None}
-    costs = {start: 0}
-    nodesAnalized = 0
+    cost = 0
+    q = Queue()
+    q.appendleft((start, -1))
+    visited = []
+    backtracking_list = []
     path = []
+    current_node = (-1, -1)
+    while len(q) > 0:
+        v = q.pop()
 
-    while queue:
-        current_node = queue.popleft()
-        nodesAnalized = nodesAnalized + 1
+        if goal == v[0]:
+            path.append(v[0])
+            current_node = v
+            backtracking_list.append(current_node)
 
-        if current_node == goal:
-            total_cost = costs[current_node]
-            while current_node is not None:
-                path.append(current_node)
-                current_node = predecessor[current_node]
-            path.reverse()
-            return (nodesAnalized, total_cost, path)
+            while current_node[1] != -1:
+                for node in backtracking_list:
+                    if node[0] == current_node[1]:
+                        cost += graph[current_node[0]][1][current_node[1]]
+                        current_node = node
+                        path.insert(0, current_node[0])
+                        break
 
-        for neighbor in graph[current_node][1:]:
-            neighbor_node, neighbor_cost = list(neighbor.items())[0]
-            if neighbor_node not in visited:
-                visited[neighbor_node] = True
-                predecessor[neighbor_node] = current_node
-                costs[neighbor_node] = costs[current_node] + neighbor_cost
-                queue.append(neighbor_node)
+            return (len(visited), cost, path)
+
+        if v[0] not in visited:
+            visited.append(v[0])
+            backtracking_list.append(v)
+            for u in graph[v[0]][1].keys():
+                if u not in visited:
+                    q.appendleft((u, v[0]))

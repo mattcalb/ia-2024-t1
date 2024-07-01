@@ -1,9 +1,10 @@
 """Implementação do algoritmo de Dijkstra para o menor caminho em grafos."""
-
 from heapq import heapify, heappush, heappop
 
 def dijkstra(graph, start, goal):
+    return
 
+'''
     if (start in graph and goal in graph):
 
         distance = {v: float('inf') for v in graph.keys()}
@@ -36,4 +37,4 @@ def dijkstra(graph, start, goal):
                         heappush(priority_q, (distance[vertex], vertex))
 
     else:
-        raise Exception('Vértice não encontrado no grafo')
+        raise Exception('Vértice não encontrado no grafo')'''

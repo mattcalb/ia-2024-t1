@@ -16,14 +16,14 @@ def read_graph(filename):
         nodeDescription = contentConvertedToNumbers[1:(numberOfNodes + 1)]
         for i in nodeDescription:
             for j in i:
-                grafo.update({nodeDescription[j][0]: [[nodeDescription[j][1], nodeDescription[j][2]]]})
+                grafo.update({nodeDescription[j][0]: [[nodeDescription[j][1], nodeDescription[j][2]], {}]})
                 break
         vertexDescription = contentConvertedToNumbers[(numberOfNodes + 2):]
         cont = 0
         for i in vertexDescription:
             for j in i:
-                grafo[j].append({vertexDescription[cont][1]: vertexDescription[cont][2]})
-                grafo[i[1]].append({i[0]: i[2]})
+                grafo[j][1].update({vertexDescription[cont][1]: vertexDescription[cont][2]})
+                grafo[i[1]][1].update({i[0]: i[2]})
                 break
             cont = cont + 1
     return grafo
