@@ -4,6 +4,9 @@ from queue import PriorityQueue
 from util import haversine
 
 def a_star(graph, start, goal):
+    if start not in graph or goal not in graph:
+        raise Exception('Vértice não encontrado no grafo')
+    
     frontier = PriorityQueue()
     frontier.put((0, start))
     came_from = {}
