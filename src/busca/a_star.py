@@ -15,7 +15,7 @@ def a_star(graph, start, goal):
     cost_so_far[start] = 0
     path = [start]
     checked = 0
-
+ 
     while not frontier.empty():
         current = frontier.get()[1]
         checked += 1
